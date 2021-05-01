@@ -68,21 +68,6 @@ public class ApplicationUserService implements UserDetailsService, ApplicationUs
     }
 
     @Override
-    public List<ApplicationUser> getAllUsers() {
-        return applicationUserRepository.findAll();
-    }
-
-    @Override
-    public ApplicationUser getUserById(Integer id) {
-        return applicationUserRepository.findById(id).get();
-    }
-
-    @Override
-    public void deleteUserById(Integer id) {
-        applicationUserRepository.deleteById(id);
-    }
-
-    @Override
     public Integer countUserByUsername(String username) {
         return applicationUserRepository.countUserByUsername(username);
     }
