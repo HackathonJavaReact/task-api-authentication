@@ -13,11 +13,5 @@ public interface ApplicationUserDao {
 
     public boolean usernameAlreadyExist(String username);
 
-    public ApplicationUser getUserById(Integer id);
-
-    public List<ApplicationUser> getAllUsers();
-
-    public void deleteUserById(Integer id);
-
     public Integer countUserByUsername(String username);
 }
