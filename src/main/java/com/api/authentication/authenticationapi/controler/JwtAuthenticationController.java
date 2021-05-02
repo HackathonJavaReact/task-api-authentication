@@ -107,7 +107,7 @@ public class JwtAuthenticationController {
         if(authentication != null){
             applicationUser = (ApplicationUser)authentication.getPrincipal();
         }
-
+        
         return applicationUser;
     }
 
