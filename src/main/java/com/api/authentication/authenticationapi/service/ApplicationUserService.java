@@ -71,4 +71,9 @@ public class ApplicationUserService implements UserDetailsService, ApplicationUs
     public Integer countUserByUsername(String username) {
         return applicationUserRepository.countUserByUsername(username);
     }
+
+    @Override
+    public ApplicationUser getUserById(int id){
+        return applicationUserRepository.getOne(id);
+    }
 }

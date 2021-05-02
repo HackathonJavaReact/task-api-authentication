@@ -1,15 +1,24 @@
 package com.api.authentication.authenticationapi.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import java.util.Collection;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "application_users")
@@ -22,6 +31,7 @@ public class ApplicationUser implements UserDetails {
     @NotEmpty(message = "Username cannot be empty")
     private String username;
 
+    @JsonIgnore
     @NotEmpty(message = "Password cannot be empty")
     private String password;
 
