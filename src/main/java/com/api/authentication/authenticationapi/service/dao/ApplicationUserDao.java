@@ -14,4 +14,6 @@ public interface ApplicationUserDao {
     public boolean usernameAlreadyExist(String username);
 
     public Integer countUserByUsername(String username);
+
+    public ApplicationUser getUserById(int id);
 }
