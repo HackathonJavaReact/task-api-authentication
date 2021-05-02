@@ -31,7 +31,6 @@ public class ApplicationUser implements UserDetails {
     @NotEmpty(message = "Username cannot be empty")
     private String username;
 
-    @JsonIgnore
     @NotEmpty(message = "Password cannot be empty")
     private String password;
 
