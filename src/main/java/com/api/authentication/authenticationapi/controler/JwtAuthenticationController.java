@@ -2,9 +2,11 @@ package com.api.authentication.authenticationapi.controler;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.api.authentication.authenticationapi.model.ApplicationUser;
+import com.api.authentication.authenticationapi.security.CookieUtil;
 import com.api.authentication.authenticationapi.security.jwt.JwtRequest;
 import com.api.authentication.authenticationapi.security.jwt.JwtResponse;
 import com.api.authentication.authenticationapi.security.jwt.JwtTokenUtil;
@@ -47,7 +49,7 @@ public class JwtAuthenticationController {
      * @throws Exception
      */
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletResponse response) throws Exception {
 
         Authentication authentication = authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         UserDetails userDetails = null;
@@ -62,7 +64,11 @@ public class JwtAuthenticationController {
         }
 
         if(userDetails != null){
+            CookieUtil cookieUtil = new CookieUtil();
+
             token = jwtTokenUtil.generateToken(userDetails);
+            cookieUtil.addTokenToCookiesResponse(response, token);
+
             return ResponseEntity.ok(new JwtResponse(token));
         } 
 
