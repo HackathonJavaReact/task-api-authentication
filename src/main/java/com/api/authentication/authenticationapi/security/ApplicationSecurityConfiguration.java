@@ -48,17 +48,22 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         http.cors()
                 .and()
                 .csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/authenticate").permitAll()
-                .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/authenticate").anonymous()
+                .antMatchers(HttpMethod.POST, "/register").anonymous()
                 .antMatchers(HttpMethod.GET, "/isAuthenticated").permitAll()
-                .antMatchers(HttpMethod.GET, "/getUser").permitAll()
+                .antMatchers(HttpMethod.GET, "/getUser").authenticated()
                 .antMatchers("/**").denyAll()
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                            .deleteCookies("sessionId")
+                                .invalidateHttpSession(true);
 
                  // Add a filter to validate the tokens with every request
                 http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
