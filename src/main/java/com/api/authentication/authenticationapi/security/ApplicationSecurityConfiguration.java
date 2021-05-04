@@ -1,5 +1,7 @@
 package com.api.authentication.authenticationapi.security;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.api.authentication.authenticationapi.security.jwt.JwtAuthenticationEntryPoint;
 import com.api.authentication.authenticationapi.security.jwt.JwtRequestFilter;
 import com.api.authentication.authenticationapi.service.ApplicationUserService;
@@ -38,7 +40,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
 
     @Autowired
     public ApplicationSecurityConfiguration(PasswordEncoder passwordEncoder,
-                                            ApplicationUserService applicationUserService) {
+            ApplicationUserService applicationUserService) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
     }
@@ -60,10 +62,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .logout()
-                    .logoutUrl("/logout")
-                            .deleteCookies("sessionId")
-                                .invalidateHttpSession(true);
+                .logout().disable();
 
                  // Add a filter to validate the tokens with every request
                 http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
