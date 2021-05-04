@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.api.authentication.authenticationapi.dto.ApplicationUserDto;
 import com.api.authentication.authenticationapi.model.ApplicationUser;
 import com.api.authentication.authenticationapi.security.CookieUtil;
 import com.api.authentication.authenticationapi.security.jwt.JwtRequest;
@@ -12,6 +13,7 @@ import com.api.authentication.authenticationapi.security.jwt.JwtResponse;
 import com.api.authentication.authenticationapi.security.jwt.JwtTokenUtil;
 import com.api.authentication.authenticationapi.service.ApplicationUserService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +41,9 @@ public class JwtAuthenticationController {
 
     @Autowired
     private ApplicationUserService applicationUserService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**
      * Authenticate a user with a given JwtRequest
@@ -107,14 +112,17 @@ public class JwtAuthenticationController {
     }
 
     @GetMapping("/getUser")
-    public ApplicationUser getUser(Authentication authentication){
-        ApplicationUser applicationUser = null;
+    public ApplicationUserDto getUser(Authentication authentication){
+        ApplicationUserDto applicationUserDto = null;
+
+        
 
         if(authentication != null){
-            applicationUser = (ApplicationUser)authentication.getPrincipal();
+            ApplicationUser applicationUser = (ApplicationUser)authentication.getPrincipal();
+            applicationUserDto = modelMapper.map(applicationUser, ApplicationUserDto.class);
         }
         
-        return applicationUser;
+        return applicationUserDto;
     }
 
     /**
