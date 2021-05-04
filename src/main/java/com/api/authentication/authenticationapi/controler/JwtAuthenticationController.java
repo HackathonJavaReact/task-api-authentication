@@ -115,8 +115,6 @@ public class JwtAuthenticationController {
     public ApplicationUserDto getUser(Authentication authentication){
         ApplicationUserDto applicationUserDto = null;
 
-        
-
         if(authentication != null){
             ApplicationUser applicationUser = (ApplicationUser)authentication.getPrincipal();
             applicationUserDto = modelMapper.map(applicationUser, ApplicationUserDto.class);
